@@ -176,7 +176,7 @@ export function Odds() {
                       <TableRow>
                         <TableHead className="text-white">Player</TableHead>
                         <TableHead className="text-white">Team</TableHead>
-                        <TableHead className="text-white">Anytime TD Odds</TableHead>
+                        <TableHead className="text-white">Anytime TD</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
