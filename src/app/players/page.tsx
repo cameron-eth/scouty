@@ -249,12 +249,12 @@ export default function Players() {
                       <TableRow>
                         <TableHead>Name</TableHead>
                         <TableHead>Position</TableHead>
-                        <TableHead>Height</TableHead>
-                        <TableHead>Weight</TableHead>
                         <TableHead>Speed</TableHead>
                         <TableHead>Route Running</TableHead>
                         <TableHead>Pass Defense</TableHead>
                         <TableHead>Tackling</TableHead>
+                        <TableHead>Height</TableHead>
+                        <TableHead>Weight</TableHead>
                         <TableHead>ADP</TableHead>
                       </TableRow>
                     </TableHeader>
