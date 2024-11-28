@@ -253,9 +253,9 @@ export default function Players() {
                         <TableHead>Route Running</TableHead>
                         <TableHead>Pass Defense</TableHead>
                         <TableHead>Tackling</TableHead>
+                        <TableHead>ADP</TableHead>
                         <TableHead>Height</TableHead>
                         <TableHead>Weight</TableHead>
-                        <TableHead>ADP</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -263,17 +263,13 @@ export default function Players() {
                         <motion.tr key={player.id} variants={itemVariants}>
                           <TableCell>{player.name}</TableCell>
                           <TableCell>{player.position}</TableCell>
-                          <TableCell>{cmToHeight(player.height)}</TableCell>
-                          
                           <TableCell>{player.speed}</TableCell>
                           <TableCell>{player.route_running}</TableCell>
-
                           <TableCell>{player.pass_defense}</TableCell>
                           <TableCell>{player.tackling}</TableCell>
-                          <TableCell>{player.height}</TableCell>
-
-                          <TableCell>{player.weight} kg</TableCell>
                           <TableCell>{player.adp}</TableCell>
+                          <TableCell>{cmToHeight(player.height)}</TableCell>
+                          <TableCell>{player.weight} kg</TableCell>
                         </motion.tr>
                       ))}
                     </TableBody>
