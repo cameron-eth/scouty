@@ -56,12 +56,12 @@ export default function Players() {
   const [newPlayer, setNewPlayer] = useState<Omit<Player, "id">>({
     name: "",
     position: "",
-    height: 0,
-    weight: 0,
     speed: 0,
     route_running: 0,
     pass_defense: 0,
     tackling: 0,
+    height: 0,
+    weight: 0,
     adp: 0,
   });
   const [loading, setLoading] = useState(true);
