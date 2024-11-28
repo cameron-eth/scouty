@@ -1,5 +1,4 @@
 import TeamsList from "@/components/ui/teamsdisplay";
-
 export default function Teams() {
   return (
     <div className="container mx-auto px-4 py-8">
