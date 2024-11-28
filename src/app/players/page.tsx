@@ -264,11 +264,15 @@ export default function Players() {
                           <TableCell>{player.name}</TableCell>
                           <TableCell>{player.position}</TableCell>
                           <TableCell>{cmToHeight(player.height)}</TableCell>
-                          <TableCell>{player.weight} kg</TableCell>
+                          
                           <TableCell>{player.speed}</TableCell>
                           <TableCell>{player.route_running}</TableCell>
+
                           <TableCell>{player.pass_defense}</TableCell>
                           <TableCell>{player.tackling}</TableCell>
+                          <TableCell>{player.height}</TableCell>
+
+                          <TableCell>{player.weight} kg</TableCell>
                           <TableCell>{player.adp}</TableCell>
                         </motion.tr>
                       ))}
