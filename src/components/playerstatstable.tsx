@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { createClient } from '@/app/utils/supabase/client';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUpDown } from 'lucide-react';
 
 const supabase = createClient();
 
@@ -20,9 +23,15 @@ interface PlayerStats {
   rec: number | null;
 }
 
+type SortConfig = {
+  key: keyof PlayerStats;
+  direction: 'asc' | 'desc';
+};
+
 export function PlayerStatsTable() {
   const [players, setPlayers] = useState<PlayerStats[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'rec_yards', direction: 'desc' });
 
   useEffect(() => {
     fetchPlayers();
@@ -85,55 +94,86 @@ export function PlayerStatsTable() {
     }
   };
 
+  const handleSort = (key: keyof PlayerStats) => {
+    setSortConfig(prevConfig => ({
+      key,
+      direction: prevConfig.key === key && prevConfig.direction === 'desc' ? 'asc' : 'desc'
+    }));
+  };
+
+  const sortedPlayers = React.useMemo(() => {
+    const sortableItems = [...players];
+    sortableItems.sort((a, b) => {
+      if (a[sortConfig.key] === null) return 1;
+      if (b[sortConfig.key] === null) return -1;
+      if (a[sortConfig.key]! < b[sortConfig.key]!) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (a[sortConfig.key]! > b[sortConfig.key]!) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+    return sortableItems;
+  }, [players, sortConfig]);
+
+  const statFields: (keyof PlayerStats)[] = ['rec_yards', 'pass_yds', 'rec_tds', 'rush_yds', 'pass_tds', 'rush_tds', 'rec'];
+
   return (
-    <div className="overflow-x-auto rounded p-2 bg-zinc-900">
-      <AnimatePresence>
-        {loading ? (
-          <motion.p
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="text-center text-white"
-          >
-            Loading player stats...
-          </motion.p>
-        ) : (
-          <motion.div
-            key="table"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-white">Name</TableHead>
-                  <TableHead className="text-white">Position</TableHead>
-                  <TableHead className="text-white">Rec Yards</TableHead>
-                  <TableHead className="text-white">Pass Yards</TableHead>
-                  <TableHead className="text-white">Rec TDs</TableHead>
-                  <TableHead className="text-white">Pass TDs</TableHead>
-                  <TableHead className="text-white">Rush TDs</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {players.map((player) => (
-                  <motion.tr key={player.id} variants={rowVariants}>
-                    <TableCell className="text-white">{player.name}</TableCell>
-                    <TableCell className="text-white">{formatPosition(player.position)}</TableCell>
-                    <TableCell className="text-white">{player.rec_yards ?? 0}</TableCell>
-                    <TableCell className="text-white">{player.pass_yds ?? 0}</TableCell>
-                    <TableCell className="text-white">{player.rec_tds ?? 0}</TableCell>
-                    <TableCell className="text-white">{player.pass_tds ?? 0}</TableCell>
-                    <TableCell className="text-white">{player.rush_tds ?? 0}</TableCell>
-                  </motion.tr>
-                ))}
-              </TableBody>
-            </Table>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div className="space-y-4">
+      <div className="overflow-x-auto rounded p-2 bg-zinc-900">
+        <AnimatePresence>
+          {loading ? (
+            <motion.p
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center text-white"
+            >
+              Loading player stats...
+            </motion.p>
+          ) : (
+            <motion.div
+              key="table"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+            >
+              <ScrollArea className="w-full whitespace-nowrap">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-white">Name</TableHead>
+                      <TableHead className="text-white">Position</TableHead>
+                      {statFields.map(field => (
+                        <TableHead key={field} className="text-white">
+                          <Button
+                            variant="ghost"
+                            onClick={() => handleSort(field)}
+                            className="text-white hover:text-gray-300"
+                          >
+                            {field.replace('_', ' ').replace('yds', 'yards')}
+                            <ArrowUpDown className="ml-2 h-4 w-4" />
+                          </Button>
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {sortedPlayers.map((player) => (
+                      <motion.tr key={player.id} variants={rowVariants}>
+                        <TableCell className="text-white">{player.name}</TableCell>
+                        <TableCell className="text-white">{formatPosition(player.position)}</TableCell>
+                        {statFields.map(field => (
+                          <TableCell key={field} className="text-white">{player[field] ?? 0}</TableCell>
+                        ))}
+                      </motion.tr>
+                    ))}
+                  </TableBody>
+                </Table>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
