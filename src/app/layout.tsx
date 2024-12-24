@@ -16,8 +16,8 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: "Turkey Bowl Drafting App",
-  description: "Draft players for your Turkey Bowl team",
+  title: "3rd Annual Garret Meyer Invitational Santa Bowl",
+  description: "Where Legends Are Born",
 }
 
 export default function RootLayout({

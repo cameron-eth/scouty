@@ -53,7 +53,7 @@ export default function Draft() {
           <h3 className="text-xl font-bold mb-2">Available Players</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-transparent">
                 <th className="border p-2">Name</th>
                 <th className="border p-2">Position</th>
                 <th className="border p-2">ADP</th>
@@ -83,7 +83,7 @@ export default function Draft() {
           <h3 className="text-xl font-bold mb-2">Drafted Players</h3>
           <table className="w-full border-collapse border">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-transparent">
                 <th className="border p-2">Name</th>
                 <th className="border p-2">Position</th>
                 <th className="border p-2">Team</th>
@@ -104,7 +104,7 @@ export default function Draft() {
       <div className="mt-4">
         <h3 className="text-xl font-bold mb-2">Selected Player</h3>
         {selectedPlayer ? (
-          <div className="bg-gray-100 p-4 rounded">
+          <div className="bg-transparent p-4 rounded">
             <p><strong>Name:</strong> {selectedPlayer.name}</p>
             <p><strong>Position:</strong> {selectedPlayer.position}</p>
             <p><strong>Height:</strong> {selectedPlayer.height} cm</p>
