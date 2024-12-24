@@ -19,16 +19,6 @@ type Player = {
   route_running: number;
   pass_defense: number;
   tackling: number;
-  adp: number;
-  team_id: number;
-  rec_yards: number;
-  pass_yds: number;
-  rec_tds: number;
-  rush_yds: number;
-  pass_tds: number;
-  rush_tds: number;
-  rec: number;
-  anytime_td: number;
   overall: number;
 };
 
@@ -74,8 +64,8 @@ export default function Players() {
       setLoading(true);
       const { data, error } = await supabase
         .from("players")
-        .select("*")
-        .order("id", { ascending: true });
+        .select("id, name, position, height, weight, speed, route_running, pass_defense, tackling, overall")
+        .order("overall", { ascending: false });
 
       if (error) throw error;
 
@@ -137,9 +127,7 @@ export default function Players() {
   };
 
   const columns: (keyof Player)[] = [
-    "overall", "name", "position", "height", "weight", "speed", "route_running", "pass_defense", 
-    "tackling", "adp", "team_id", "rec_yards", "pass_yds", "rec_tds", "rush_yds", "pass_tds", 
-    "rush_tds", "rec", "anytime_td"
+    "overall", "name", "position", "height", "weight", "speed", "route_running", "pass_defense", "tackling"
   ];
 
   return (
